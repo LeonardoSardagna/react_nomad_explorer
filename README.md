@@ -6,48 +6,48 @@ Nomad Navigator is a web application designed to facilitate the management and o
 
 ### Register Next Trip
 
-        Create a new trip by specifying the destination, start and end dates, and inviting participants.
+Create a new trip by specifying the destination, start and end dates, and inviting participants.
         
 ### Invite Participants
 
-        After registering the trip, invited participants receive an invitation email. By clicking on the confirmation link, they can confirm their participation in the trip.
+After registering the trip, invited participants receive an invitation email. By clicking on the confirmation link, they can confirm their participation in the trip.
     
 ### Organize Activities
     
-        The trip creator can add planned activities for each day of the trip, including the title, date, and time of the activities.
+The trip creator can add planned activities for each day of the trip, including the title, date, and time of the activities.
     
 ### Save Important Links
     
-        Participants can add useful links related to the trip, such as accommodation reservations, places of interest, etc.
+Participants can add useful links related to the trip, such as accommodation reservations, places of interest, etc.
 
 ## Technologies Used
 
-    React: Library for building user interfaces.
-    TypeScript: Superset of JavaScript for increased code safety and robustness.
-    TailwindCSS: CSS framework for fast and efficient styling.
-    React Router: Library for route management and navigation.
-    Axios: Library for making HTTP requests to the backend.
+- React: Library for building user interfaces.
+- TypeScript: Superset of JavaScript for increased code safety and robustness.
+- TailwindCSS: CSS framework for fast and efficient styling.
+- React Router: Library for route management and navigation.
+- Axios: Library for making HTTP requests to the backend.
 
 ## Installation and Running
 
-    Clone the Repository:
+### Clone the Repository:
 
 ```bash
 git clone https://github.com/LeonardoSardagna/react_nomad_explorer.git
 ```
 
-    Install Dependencies:
+### Install Dependencies:
 
 ```bash
 cd react_nomad_explorer
 npm install
 ```
 
-Configure Environment Variables:
+### Configure Environment Variables:
 
     Create a .env file at the root of the project and add your environment variables (e.g., backend URL).
 
-Run the Application:
+### Run the Application:
 
 ```bash
 npm start
