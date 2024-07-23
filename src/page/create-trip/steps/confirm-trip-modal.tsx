@@ -23,8 +23,8 @@ export function ConfirmTripModal({
 }: ConfirmTripModalProps) {
 
     const displayedDate = eventStartAndEndDates && eventStartAndEndDates.to && eventStartAndEndDates.from
-    ? format(eventStartAndEndDates.from, "d' de 'LLL").concat(' até ').concat(format(eventStartAndEndDates.to, "d ' de ' LLL"))
-    : null
+        ? format(eventStartAndEndDates.from, "d' de 'LLL").concat(' até ').concat(format(eventStartAndEndDates.to, "d ' de ' LLL"))
+        : null
 
     return (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
@@ -41,22 +41,22 @@ export function ConfirmTripModal({
 
                     <div className="flex items-center gap-2 flex-1 bg-zinc-950 px-4 rounded-lg h-14">
                         <User className="size-5 text-zinc-400" />
-                        <input 
-                        type="text" 
-                        placeholder="Seu nome completo" 
-                        className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1 " 
-                        onChange={event => setOwnerName(event.target.value)}
+                        <input
+                            type="text"
+                            placeholder="Seu nome completo"
+                            className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1 "
+                            onChange={event => setOwnerName(event.target.value)}
                         />
                     </div>
 
                     <div className="flex items-center gap-2 flex-1 bg-zinc-950 px-4 rounded-lg h-14">
                         <Mail className="size-5 text-zinc-400" />
-                        <input 
-                        type="email" 
-                        name="email" 
-                        placeholder="Seu e-mail pessoal" 
-                        className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1 " 
-                        onChange={event => setOwnerEmail(event.target.value)}
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Seu e-mail pessoal"
+                            className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1 "
+                            onChange={event => setOwnerEmail(event.target.value)}
                         />
                     </div>
                     <Button size="full">

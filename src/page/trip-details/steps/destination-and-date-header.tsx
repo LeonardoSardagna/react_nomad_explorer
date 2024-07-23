@@ -23,14 +23,14 @@ export function DestinationDateHeader() {
     async function editTrip() {
         navigate(`/`)
     }
-    
+
     useEffect(() => {
         api.get(`/trips/${idTrip}`).then(response => setTrip(response.data))
     }, [idTrip])
 
     const displayedDate = trip
-    ? format(trip.startsAt, "d' de 'LLL").concat(' até ').concat(format(trip.endsAt, "d ' de ' LLL"))
-    : null
+        ? format(trip.startsAt, "d' de 'LLL").concat(' até ').concat(format(trip.endsAt, "d ' de ' LLL"))
+        : null
 
     return (
         <div className="flex justify-between items-center h-16 px-4 rounded-xl shadow-shape bg-zinc-900">

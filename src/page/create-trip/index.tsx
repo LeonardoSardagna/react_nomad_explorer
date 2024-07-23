@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { InviteGuestsStep } from "./steps/invite-guests-step";
 import { ConfirmTripModal } from "./steps/confirm-trip-modal";
 import { InviteGuestsModal } from "./steps/invite-guests-modal";
@@ -10,7 +10,7 @@ import { api } from "../../lib/axios";
 export function CreateTrip() {
     const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [EmailToInvite, setEmailToInvite] = useState(['leonardo@gmail.com'])
+    const [EmailToInvite, setEmailToInvite] = useState([])
     const [isConfirmPlanner, setIsConfirmPlanner] = useState(false);
     const navigate = useNavigate();
 
@@ -72,23 +72,23 @@ export function CreateTrip() {
     async function createTrip(evento: FormEvent<HTMLFormElement>) {
         evento.preventDefault()
 
-        if(!ownerEmail || !ownerName){
+        if (!ownerEmail || !ownerName) {
             return
         }
 
-        if(!destination){
+        if (!destination) {
             return
         }
 
-        if(!EmailToInvite){
+        if (!EmailToInvite) {
             return
         }
 
-        if(!eventStartAndEndDates?.from || !eventStartAndEndDates?.to){
+        if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
             return
         }
 
-        const response = await api.post('/trips',{
+        const response = await api.post('/trips', {
             ownerName: ownerName,
             ownerEmail: ownerEmail,
             destination: destination,
@@ -97,14 +97,14 @@ export function CreateTrip() {
             ends_at: eventStartAndEndDates.to
         })
 
-        const {id} = response.data
+        const { id } = response.data
 
         navigate(`/trips/${id}`)
     }
 
     return (
         <div className="h-screen flex justify-center items-center bg-pattern bg-center">
-            <div className="px-6 max-w-3xl w-full text-center space-y-10">
+            <div className="px-6 max-w-4xl w-full text-center space-y-10">
                 <div className="flex flex-col space-y-3">
                     <div className="flex justify-center items-center gap-5">
                         <img src="/logo-nomad-1.png" alt="logo nomad" className="size-14 rounded-full" />

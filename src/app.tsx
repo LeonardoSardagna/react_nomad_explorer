@@ -8,11 +8,11 @@ import { TripDetails } from "./page/trip-details";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <CreateTrip/>,
+    element: <CreateTrip />,
   },
   {
     path: "/trips/:idTrip",
-    element: <TripDetails/>,
+    element: <TripDetails />,
   },
 ]);
 

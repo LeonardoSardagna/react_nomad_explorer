@@ -8,9 +8,7 @@ interface CreateActivityModalProps {
     CloseCreateActivityModal: () => void
 }
 
-export function CreateActivityModal({
-    CloseCreateActivityModal
-}: CreateActivityModalProps) {
+export function CreateActivityModal({ CloseCreateActivityModal }: CreateActivityModalProps) {
     const { idTrip } = useParams()
 
     async function createActivity(event: FormEvent<HTMLFormElement>) {
@@ -27,6 +25,7 @@ export function CreateActivityModal({
         })
 
         CloseCreateActivityModal()
+        window.document.location.reload()
     }
 
     return (

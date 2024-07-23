@@ -8,21 +8,23 @@ interface GuestsProps {
     OpenConfirmParticipant: () => void
 }
 
-interface ParticipantProps{
+interface ParticipantProps {
     id: string,
     name: string | null,
     email: string,
     isConfirmed: boolean
 }
 
-export function Guests({
-    OpenConfirmParticipant
-}: GuestsProps) {
+export function Guests({ OpenConfirmParticipant }: GuestsProps) {
     const { idTrip } = useParams()
     const [participants, setParticipants] = useState<ParticipantProps[]>([]);
 
+    const refreshParticipants = () => {
+        api.get(`/trips/${idTrip}/participants`).then(response => setParticipants(response.data));
+    }
+
     useEffect(() => {
-        api.get(`/trips/${idTrip}/participants`).then(response => setParticipants(response.data))
+        refreshParticipants()
     }, [idTrip])
 
     return (

@@ -8,12 +8,10 @@ interface CreateLinksModalProps {
     CloseCreateLink: () => void
 }
 
-export function CreateLinksModal({
-    CloseCreateLink
-}: CreateLinksModalProps) {
+export function CreateLinksModal({ CloseCreateLink }: CreateLinksModalProps) {
     const { idTrip } = useParams()
 
-    async function createLinks(event: FormEvent<HTMLFormElement>){
+    async function createLinks(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
         const data = new FormData(event.currentTarget)
@@ -26,9 +24,10 @@ export function CreateLinksModal({
             url
         })
 
+        window.document.location.reload()
         CloseCreateLink()
     }
-    
+
 
     return (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center">

@@ -13,9 +13,7 @@ interface LinksProps {
     url: string
 }
 
-export function LinksImportant({
-    OpenCreateLink
-}: LinksImportantProps) {
+export function LinksImportant({ OpenCreateLink }: LinksImportantProps) {
     const { idTrip } = useParams()
     const [links, setLinks] = useState<LinksProps[]>([]);
 
