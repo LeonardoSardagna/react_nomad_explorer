@@ -3,12 +3,14 @@ import { Button } from "../../../components/button";
 import { useParams } from "react-router-dom";
 import { api } from "../../../lib/axios";
 import { FormEvent } from "react";
+import { TesteLink } from "../../../interface/linksProps";
 
 interface CreateLinksModalProps {
     CloseCreateLink: () => void
+    setLinks: React.Dispatch<React.SetStateAction<TesteLink[]>>
 }
 
-export function CreateLinksModal({ CloseCreateLink }: CreateLinksModalProps) {
+export function CreateLinksModal({ CloseCreateLink, setLinks }: CreateLinksModalProps) {
     const { idTrip } = useParams()
 
     async function createLinks(event: FormEvent<HTMLFormElement>) {
@@ -23,11 +25,11 @@ export function CreateLinksModal({ CloseCreateLink }: CreateLinksModalProps) {
             title,
             url
         })
+        
+        api.get(`/trips/${idTrip}/links`).then(response => setLinks(response.data))
 
-        window.document.location.reload()
         CloseCreateLink()
     }
-
 
     return (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center">

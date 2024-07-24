@@ -1,28 +1,20 @@
 import { CircleCheck, Plus } from "lucide-react";
 import { Button } from "../../../components/button";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { api } from "../../../lib/axios";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { Category } from "../../../interface/categoryProps";
 
 interface ActivityProps {
     OpenCreateActivityModal: () => void
-}
-interface Activity {
-    id: string;
-    title: string;
-    occurs_at: string;
+    activities: Category[]
+    setActivities: React.Dispatch<React.SetStateAction<Category[]>>
 }
 
-interface Category {
-    date: string;
-    activities: Activity[];
-}
-
-export function Activity({ OpenCreateActivityModal }: ActivityProps) {
+export function Activity({ OpenCreateActivityModal, activities, setActivities }: ActivityProps) {
     const { idTrip } = useParams()
-    const [activities, setActivities] = useState<Category[]>([]);
 
     useEffect(() => {
         const fetchActivities = async () => {
@@ -37,9 +29,8 @@ export function Activity({ OpenCreateActivityModal }: ActivityProps) {
                 console.error("Error fetching activities:", error);
             }
         };
-
         fetchActivities();
-    }, [idTrip]);
+    }, [idTrip, setActivities]);
 
     return (
         <div className="flex-1 space-y-6">

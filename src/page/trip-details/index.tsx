@@ -6,11 +6,17 @@ import { LinksImportant } from "./steps/important-links";
 import { Guests } from "./steps/guests";
 import { DestinationDateHeader } from "./steps/destination-and-date-header";
 import { ConfirmParticipantModal } from "./steps/confirm-participant-modal";
+import { ParticipantProps } from "../../interface/participantProps";
+import { TesteLink } from "../../interface/linksProps";
+import { Category } from "../../interface/categoryProps";
 
 export function TripDetails() {
     const [isCreateActivityModal, setIsCreateActivityModal] = useState(false)
     const [isCreateLinkModal, setIsCreateLinkModal] = useState(false)
     const [isConfirmParticipantModal, setIsConfirmParticipantModal] = useState(false)
+    const [participants, setParticipants] = useState<ParticipantProps[]>([]);
+    const [links, setLinks] = useState<TesteLink[]>([]);
+    const [activities, setActivities] = useState<Category[]>([]);
 
     function OpenCreateActivityModal() {
         setIsCreateActivityModal(true)
@@ -42,30 +48,41 @@ export function TripDetails() {
             <main className="flex gap-16 px-4">
                 <Activity
                     OpenCreateActivityModal={OpenCreateActivityModal}
+                    activities={activities}
+                    setActivities={setActivities}
                 />
                 <div className="space-y-6 w-80">
                     <LinksImportant
                         OpenCreateLink={OpenCreateLinkModal}
+                        links={links}
+                        setLinks={setLinks}
                     />
                     <div className="w-full h-px bg-zinc-800" />
                     <Guests
                         OpenConfirmParticipant={OpenConfirmParticipantModal}
+                        participants={participants}
+                        setParticipants={setParticipants}
                     />
                 </div>
             </main>
             {isCreateActivityModal && (
                 <CreateActivityModal
                     CloseCreateActivityModal={CloseCreateActivityModal}
+                    activities={activities}
+                    setActivities={setActivities}
                 />
             )}
             {isCreateLinkModal && (
                 <CreateLinksModal
                     CloseCreateLink={CloseCreateLinkModal}
+                    setLinks={setLinks}
                 />
             )}
             {isConfirmParticipantModal && (
                 <ConfirmParticipantModal
                     CloseConfirmParticipantModal={CloseConfirmParticipantModal}
+                    participants={participants}
+                    setParticipants={setParticipants}
                 />
             )}
         </div>

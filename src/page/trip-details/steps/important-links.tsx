@@ -1,25 +1,22 @@
 import { Link2, Plus } from "lucide-react";
 import { Button } from "../../../components/button";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { api } from "../../../lib/axios";
+import { TesteLink } from "../../../interface/linksProps";
 
 interface LinksImportantProps {
     OpenCreateLink: () => void
+    links: TesteLink[]
+    setLinks: React.Dispatch<React.SetStateAction<TesteLink[]>>
 }
 
-interface LinksProps {
-    title: string
-    url: string
-}
-
-export function LinksImportant({ OpenCreateLink }: LinksImportantProps) {
+export function LinksImportant({ OpenCreateLink, links, setLinks }: LinksImportantProps) {
     const { idTrip } = useParams()
-    const [links, setLinks] = useState<LinksProps[]>([]);
 
     useEffect(() => {
         api.get(`/trips/${idTrip}/links`).then(response => setLinks(response.data))
-    }, [idTrip])
+    }, [idTrip, setLinks])
 
     return (
         <div className="space-y-6">

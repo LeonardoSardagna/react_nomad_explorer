@@ -1,30 +1,21 @@
 import { CircleCheck, CircleDashedIcon, UserCog2 } from "lucide-react";
 import { Button } from "../../../components/button";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { api } from "../../../lib/axios";
+import { ParticipantProps } from "../../../interface/participantProps";
 
 interface GuestsProps {
     OpenConfirmParticipant: () => void
+    participants: ParticipantProps[]
+    setParticipants: React.Dispatch<React.SetStateAction<ParticipantProps[]>>
 }
 
-interface ParticipantProps {
-    id: string,
-    name: string | null,
-    email: string,
-    isConfirmed: boolean
-}
-
-export function Guests({ OpenConfirmParticipant }: GuestsProps) {
+export function Guests({ OpenConfirmParticipant, participants, setParticipants }: GuestsProps) {
     const { idTrip } = useParams()
-    const [participants, setParticipants] = useState<ParticipantProps[]>([]);
-
-    const refreshParticipants = () => {
-        api.get(`/trips/${idTrip}/participants`).then(response => setParticipants(response.data));
-    }
-
+    
     useEffect(() => {
-        refreshParticipants()
+        api.get(`/trips/${idTrip}/participants`).then(response => setParticipants(response.data));
     }, [idTrip])
 
     return (

@@ -3,29 +3,39 @@ import { Button } from "../../../components/button";
 import { FormEvent } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../../lib/axios";
+import { Category } from "../../../interface/categoryProps";
 
 interface CreateActivityModalProps {
     CloseCreateActivityModal: () => void
+    activities: Category[]
+    setActivities: React.Dispatch<React.SetStateAction<Category[]>>
 }
 
-export function CreateActivityModal({ CloseCreateActivityModal }: CreateActivityModalProps) {
+export function CreateActivityModal({ CloseCreateActivityModal, setActivities }: CreateActivityModalProps) {
     const { idTrip } = useParams()
 
     async function createActivity(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
         const data = new FormData(event.currentTarget)
-
         const title = data.get('title')?.toString()
         const occurs_at = data.get('occurs_at')?.toString()
 
-        await api.post(`/trips/${idTrip}/activities`, {
-            title,
-            occurs_at
-        })
-
-        CloseCreateActivityModal()
-        window.document.location.reload()
+        try {
+            await api.post(`/trips/${idTrip}/activities`, {
+                title,
+                occurs_at
+            })
+            const response = await api.get(`/trips/${idTrip}/activities`);
+            if (Array.isArray(response.data.activities)) {
+                setActivities(response.data.activities);
+            } else {
+                console.error("Response data is not in the expected format:", response.data);
+            }
+            CloseCreateActivityModal()
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (

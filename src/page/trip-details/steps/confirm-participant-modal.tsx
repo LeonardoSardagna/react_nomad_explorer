@@ -3,25 +3,22 @@ import { Button } from "../../../components/button";
 import { FormEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../../lib/axios";
+import { ParticipantProps } from "../../../interface/participantProps";
 
 interface ConfirmParticipantModalProps {
     CloseConfirmParticipantModal: () => void
+    participants: ParticipantProps[]
+    setParticipants: React.Dispatch<React.SetStateAction<ParticipantProps[]>>
 }
 
-interface ParticipantProps {
-    id: string,
-    email: string,
-}
-
-export function ConfirmParticipantModal({ CloseConfirmParticipantModal }: ConfirmParticipantModalProps) {
+export function ConfirmParticipantModal({ CloseConfirmParticipantModal, participants, setParticipants }: ConfirmParticipantModalProps) {
 
     const { idTrip } = useParams()
-    const [participants, setParticipants] = useState<ParticipantProps[]>([]);
     const [selectParticipantId, setSelectiParticipantId] = useState<string | null>(null)
 
     useEffect(() => {
         api.get(`/trips/${idTrip}/participants`).then(response => setParticipants(response.data))
-    }, [idTrip])
+    }, [idTrip, setParticipants])
 
     async function confirmParticipant(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -33,10 +30,13 @@ export function ConfirmParticipantModal({ CloseConfirmParticipantModal }: Confir
             name
         })
 
-        api.get(`/trips/${idTrip}/participants`).then(response => {
-            setParticipants(response.data);
-            setSelectiParticipantId(null);
-        });
+        setParticipants(prevParticipants =>
+            prevParticipants.map(participant =>
+                participant.id === selectParticipantId
+                    ? { ...participant, name, isConfirmed: true }
+                    : participant
+            )
+        );
 
         CloseConfirmParticipantModal()
     }
