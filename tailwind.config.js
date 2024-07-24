@@ -23,7 +23,9 @@ export default {
         purpleDark: '#5e35b1',
       },
       backgroundImage:{
-        pattern: 'url(/pattern.png)'
+        pattern: 'url(/pattern.png)',
+        pattern2: 'url(/pattern-2.png)',
+        pattern3: 'url(/pattern-3.png)'
       }
     },
   },
