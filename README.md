@@ -1,5 +1,8 @@
 # Nomad Navigator - Frontend
 
+<img src="public/foto-projeto-3.png" alt="Captura de tela página principal" width="50%">
+<img src="public/foto-projeto-2.png" alt="Captura de tela detalhes da viagem" width="50%">
+
 Nomad Navigator is a web application designed to facilitate the management and organization of trips, whether for work or leisure. This application allows users to create trips, invite participants, organize activities, and save important links related to the trip. This project is the frontend part of the application, developed using React with TypeScript, TailwindCSS, React Router, and Axios. It communicates with a backend developed in Java(https://github.com/LeonardoSardagna/java_nomad_explorer.git).
 
 ## Key Features
