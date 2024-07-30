@@ -1,4 +1,4 @@
-import { CheckCircle2, Rocket, User } from "lucide-react";
+import { CheckCircle2, CircleXIcon, Rocket, User } from "lucide-react";
 import { Button } from "../../components/button";
 import { useParams } from "react-router-dom";
 import { FormEvent, useEffect, useState } from "react";
@@ -9,11 +9,17 @@ import { format } from "date-fns"
 export function PageConfirmParticipants() {
     const { idTrip, idParticipant } = useParams()
     const [trip, setTrip] = useState<TripProps | undefined>();
-    const [confirm, setConfirm] = useState(false)
+    const [confirm, setConfirm] = useState<boolean | null>(null)
 
     useEffect(() => {
         api.get(`/trips/${idTrip}`).then(response => setTrip(response.data))
-    }, [idTrip])
+
+        api.get(`/participants/verify/${idParticipant}`).then(response => {
+            if(response.data === "Tempo de verificação expirado"){
+                setConfirm(false)
+            }
+        })
+    }, [idTrip, idParticipant])
 
     async function confirmParticipant(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -21,13 +27,12 @@ export function PageConfirmParticipants() {
         const data = new FormData(event.currentTarget)
         const name = data.get('name')?.toString()
 
-        await api.post(`/participants/${idParticipant}/confirm`, {
-            name
-        })
-    }
-
-    function ConfirmPresence() {
-        setConfirm(true)
+        try {
+            await api.post(`/participants/${idParticipant}/confirm`, { name });
+            setConfirm(true)
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const start = trip?.startsAt && format(trip.startsAt, "d'/'LL'/'Y")
@@ -52,18 +57,29 @@ export function PageConfirmParticipants() {
                     <div className="flex items-center gap-2 flex-1">
                         <User className="size-5 text-zinc-400" />
                         <input type="text" name="name" placeholder="Digite seu nome" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
-                        <Button onClick={ConfirmPresence}>
+                        <Button type="submit">
                             Confirmar
                             <Rocket className="size-5 text-zinc-950" />
                         </Button>
-                        {confirm &&
-                            <div className="fixed inset-0 bg-black/90 flex items-center justify-center gap-5">
-                                <p className="text-3xl">Sua presença foi confirmada</p>
-                                <CheckCircle2 className="text-lime-400 size-8"/>
-                            </div>}
+
                     </div>
                 </form>
             </div>
+            {confirm !== null && (
+                <div className="fixed inset-0 bg-black/90 flex items-center justify-center gap-5">
+                    {confirm ? (
+                        <>
+                            <p className="text-3xl">Sua presença foi confirmada</p>
+                            <CheckCircle2 className="text-lime-400 size-8" />
+                        </>
+                    ) : (
+                        <>
+                            <p className="text-3xl">O tempo para confirmar a presença se esgotou</p>
+                            <CircleXIcon className="text-red-600 size-8" />
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     )
 }

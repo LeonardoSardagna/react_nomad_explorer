@@ -12,6 +12,7 @@ export function InviteGuestsStep({
     openModal,
     openModalConfirm
 }: InviteGuestsStepProps) {
+
     return (
         <div className="flex items-center bg-zinc-900 h-16 px-4 rounded-lg shadow-shape gap-3">
             <button className="flex items-center gap-2 flex-1" onClick={openModal}>
