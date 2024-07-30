@@ -4,16 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { api } from "../../../lib/axios";
 import { format } from "date-fns";
-
-interface TripProps {
-    id: string
-    ownerName: string
-    ownerEmail: string
-    destination: string
-    startsAt: string
-    endsAt: string
-    isConfirmed: boolean
-}
+import { TripProps } from "../../../interface/tripProps";
 
 export function DestinationDateHeader() {
     const { idTrip } = useParams()

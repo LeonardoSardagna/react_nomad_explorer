@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { InviteGuestsStep } from "./steps/invite-guests-step";
 import { ConfirmTripModal } from "./steps/confirm-trip-modal";
 import { InviteGuestsModal } from "./steps/invite-guests-modal";
@@ -18,6 +18,7 @@ export function CreateTrip() {
     const [destination, setDestination] = useState('')
     const [ownerName, setOwnerName] = useState('')
     const [ownerEmail, setOwnerEmail] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
     function openGuestInput() {
         setIsGuestsInputOpen(true)
@@ -71,35 +72,30 @@ export function CreateTrip() {
 
     async function createTrip(evento: FormEvent<HTMLFormElement>) {
         evento.preventDefault()
+        setIsLoading(true)
 
-        if (!ownerEmail || !ownerName) {
-            return
+        try {
+            if (!ownerEmail || !ownerName || !destination || !EmailToInvite || !eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
+                setIsLoading(false)
+                return
+            }
+            const response = await api.post('/trips', {
+                ownerName: ownerName,
+                ownerEmail: ownerEmail,
+                destination: destination,
+                emails_to_invite: EmailToInvite,
+                starts_at: eventStartAndEndDates.from,
+                ends_at: eventStartAndEndDates.to
+            })
+
+            const { id } = response.data
+            await api.get(`/trips/${id}/confirm`)
+            navigate(`/trips/${id}`)
+        }catch(error){
+            console.log(error)
+        }finally{
+            setIsLoading(false)
         }
-
-        if (!destination) {
-            return
-        }
-
-        if (!EmailToInvite) {
-            return
-        }
-
-        if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
-            return
-        }
-
-        const response = await api.post('/trips', {
-            ownerName: ownerName,
-            ownerEmail: ownerEmail,
-            destination: destination,
-            emails_to_invite: EmailToInvite,
-            starts_at: eventStartAndEndDates.from,
-            ends_at: eventStartAndEndDates.to
-        })
-
-        const { id } = response.data
-
-        navigate(`/trips/${id}`)
     }
 
     return (
@@ -158,6 +154,7 @@ export function CreateTrip() {
                         setOwnerEmail={setOwnerEmail}
                         destination={destination}
                         eventStartAndEndDates={eventStartAndEndDates}
+                        isLoading={isLoading}
                     />
                 )
             }

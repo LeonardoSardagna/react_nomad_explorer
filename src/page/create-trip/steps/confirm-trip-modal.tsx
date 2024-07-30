@@ -3,6 +3,7 @@ import { FormEvent } from "react";
 import { Button } from "../../../components/button";
 import { DateRange } from "react-day-picker";
 import { format } from "date-fns";
+import { LoadingModal } from "../../loading/loading";
 
 interface ConfirmTripModalProps {
     closeModalConfirm: () => void
@@ -11,6 +12,7 @@ interface ConfirmTripModalProps {
     setOwnerName: (name: string) => void
     eventStartAndEndDates: DateRange | undefined
     destination: string
+    isLoading: boolean
 }
 
 export function ConfirmTripModal({
@@ -19,7 +21,8 @@ export function ConfirmTripModal({
     setOwnerName,
     setOwnerEmail,
     destination,
-    eventStartAndEndDates
+    eventStartAndEndDates,
+    isLoading
 }: ConfirmTripModalProps) {
 
     const displayedDate = eventStartAndEndDates && eventStartAndEndDates.to && eventStartAndEndDates.from
@@ -59,9 +62,14 @@ export function ConfirmTripModal({
                             onChange={event => setOwnerEmail(event.target.value)}
                         />
                     </div>
-                    <Button size="full">
-                        Confirmar criação da viagem
-                    </Button>
+                    {isLoading ? (
+                        <LoadingModal/>
+                    ) : (
+                        <Button size="full">
+                            {isLoading ? "Criando viagem..." : "Confirmar criação da viagem"}
+                        </Button>
+                    )}
+
                 </form>
             </div>
         </div>
