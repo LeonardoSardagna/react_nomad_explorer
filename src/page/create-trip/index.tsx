@@ -129,7 +129,7 @@ export function CreateTrip() {
                 </div>
 
                 <p className="font-sm text-zinc-500">
-                    Ao planejar sua viagem pelo nomad você automaticamente concorda <br /> com nossos <a href="#" className="text-zinc-300 underline hover:text-purpleMedium">termos de uso</a> e <a href="#" className="text-zinc-300 underline hover:text-purpleMedium">políticas de privacidade</a>.
+                    Ao planejar sua viagem pelo nomad você automaticamente concorda <br /> com nossos <a href="#" className="text-zinc-300 hover:text-purpleMedium"><u>termos de uso</u></a> e <a href="#" className="text-zinc-300 hover:text-purpleMedium"><u>políticas de privacidade</u></a>.
                 </p>
             </div>
 

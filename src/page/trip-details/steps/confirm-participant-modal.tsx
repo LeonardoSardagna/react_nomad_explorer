@@ -61,7 +61,7 @@ export function ConfirmParticipantModal({ CloseConfirmParticipantModal, particip
                                 onClick={() => setSelectiParticipantId(pessoa.id)}
                             >
                                 <span
-                                    className="px-2.5 py-1.5 text-zinc-300">
+                                    className="px-2.5 py-1.5 text-zinc-300 flex items-center">
                                     {pessoa.email}
                                 </span>
                             </button>
@@ -79,7 +79,7 @@ export function ConfirmParticipantModal({ CloseConfirmParticipantModal, particip
                             className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1 " />
                     </div>
 
-                    <Button variant="primary" size="full">
+                    <Button title="Confirmar participação deste usário" variant="primary" size="full">
                         Confirmar participação
                     </Button>
                 </form>

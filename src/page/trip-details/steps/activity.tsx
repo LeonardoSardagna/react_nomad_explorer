@@ -1,11 +1,12 @@
-import { CircleCheck, Plus } from "lucide-react";
+import { CircleCheck, Plus, Trash2 } from "lucide-react";
 import { Button } from "../../../components/button";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { api } from "../../../lib/axios";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Category } from "../../../interface/categoryProps";
+import { ConfirmDelete } from "./confirmDeletion";
 
 interface ActivityProps {
     OpenCreateActivityModal: () => void
@@ -15,6 +16,8 @@ interface ActivityProps {
 
 export function Activity({ OpenCreateActivityModal, activities, setActivities }: ActivityProps) {
     const { idTrip } = useParams()
+    const [openModalDelete, setOpenModalDelete] = useState(false)
+    const [activityId, setActivityId]= useState<string|null>(null)
 
     useEffect(() => {
         const fetchActivities = async () => {
@@ -32,11 +35,25 @@ export function Activity({ OpenCreateActivityModal, activities, setActivities }:
         fetchActivities();
     }, [idTrip, setActivities]);
 
+    async function DeleteActivity(id:string){
+        await api.delete(`/trips/${id}/activities`)
+        setOpenModalDelete(false)
+        setActivities(prevState => prevState.map(activitiesTrip => ({
+            ...activitiesTrip,
+            activities: activitiesTrip.activities.filter(activity => activity.id !== id)
+        })))
+    }
+
+    function OpenModalDelete(id:string){
+        setOpenModalDelete(true)
+        setActivityId(id)
+    }
+
     return (
         <div className="flex-1 space-y-6">
             <div className="flex items-center justify-between">
                 <h2 className="text-zinc-50 font-semibold text-3xl">Atividades</h2>
-                <Button onClick={OpenCreateActivityModal} variant="primary">
+                <Button title="Criar uma atividade" onClick={OpenCreateActivityModal} variant="primary">
                     <Plus className="size-5 text-zinc-950" />
                     Cadastrar Atividade
                 </Button>
@@ -56,6 +73,9 @@ export function Activity({ OpenCreateActivityModal, activities, setActivities }:
                                         <CircleCheck className="size-5 text-lime-300" />
                                         <span className="text-zinc-100">{activity.title}</span>
                                         <p className="ml-auto text-zinc-400 text-sm">{format(activity.occurs_at, 'HH:mm')}h</p>
+                                        <button onClick={()=>OpenModalDelete(activity.id)}>
+                                            <Trash2 className="size-4 text-zinc-400 hover:text-red-500" />
+                                        </button>
                                     </div>
                                 )
                                 )}
@@ -67,6 +87,12 @@ export function Activity({ OpenCreateActivityModal, activities, setActivities }:
                 )
                 )}
             </div>
+            {openModalDelete &&(
+                <ConfirmDelete
+                onConfirm={()=>DeleteActivity(activityId ? activityId : "")}
+                OnCancel={()=>setOpenModalDelete(false)}
+                />
+            )}
         </div>
     )
 }
