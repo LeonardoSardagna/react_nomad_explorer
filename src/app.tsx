@@ -22,7 +22,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/trips/:idTrip/confirm/:idParticipant",
-    element: <PageConfirmParticipants/>,
+    element: <PageConfirmParticipants />,
   },
 ]);
 

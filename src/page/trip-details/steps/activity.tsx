@@ -51,7 +51,7 @@ export function Activity({ OpenCreateActivityModal, activities, setActivities }:
 
     return (
         <div className="flex-1 space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="lg:flex max-lg:space-y-2 items-center justify-between">
                 <h2 className="text-zinc-50 font-semibold text-3xl">Atividades</h2>
                 <Button title="Criar uma atividade" onClick={OpenCreateActivityModal} variant="primary">
                     <Plus className="size-5 text-zinc-950" />
