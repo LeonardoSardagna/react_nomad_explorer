@@ -10,7 +10,7 @@ import { api } from "../../lib/axios";
 export function CreateTrip() {
     const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [EmailToInvite, setEmailToInvite] = useState([])
+    const [EmailToInvite, setEmailToInvite] = useState<string[]>([])
     const [isConfirmPlanner, setIsConfirmPlanner] = useState(false);
     const navigate = useNavigate();
 

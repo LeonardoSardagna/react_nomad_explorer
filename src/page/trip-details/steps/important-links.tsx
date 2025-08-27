@@ -14,13 +14,15 @@ interface LinksImportantProps {
 
 export function LinksImportant({ OpenCreateLink, links, setLinks }: LinksImportantProps) {
     const { idTrip } = useParams()
-    const [opentrash, setOpenTrash] = useState<string|null>(null)
+    const [opentrash, setOpenTrash] = useState<string | null>(null)
     const [openModalExclude, setOpenModalExclude] = useState(false)
-    const [linkToDelete, setLinkToDelete] = useState<string|null>(null)
+    const [linkToDelete, setLinkToDelete] = useState<string | null>(null)
 
     useEffect(() => {
-        api.get(`/trips/${idTrip}/links`).then(response => setLinks(response.data))
-    }, [idTrip, setLinks])
+        if (idTrip) {
+            api.get(`/trips/${idTrip}/links`).then((response) => setLinks(response.data));
+        }
+    }, [idTrip, setLinks]);
 
     async function DeleteLink(idLink: string) {
         await api.delete(`/trips/${idLink}/links`)
@@ -29,9 +31,9 @@ export function LinksImportant({ OpenCreateLink, links, setLinks }: LinksImporta
         setOpenModalExclude(false)
     }
 
-    function copyLink(url: string){
-        navigator.clipboard.writeText(url).then(()=>{
-            alert("Link Copiado: "+ url)
+    function copyLink(url: string) {
+        navigator.clipboard.writeText(url).then(() => {
+            alert("Link Copiado: " + url)
         })
     }
 
@@ -39,6 +41,7 @@ export function LinksImportant({ OpenCreateLink, links, setLinks }: LinksImporta
         setOpenModalExclude(true)
         setOpenTrash(null)
         setLinkToDelete(idLink)
+        setOpenTrash(idLink)
     }
 
     return (
@@ -52,11 +55,20 @@ export function LinksImportant({ OpenCreateLink, links, setLinks }: LinksImporta
                             <span className="block text-zinc-100 font-medium">{link.title}</span>
                             <a href="#" className=" block truncate text-zinc-400 text-xs">{link.url}</a>
                         </div>
-                        <button title="Copiar" onClick={()=>copyLink(link.url)} className="hover:transition ease-in-out hover:scale-110 hover:duration-200">
+                        <button title="Copiar" onClick={() => copyLink(link.url)} className="hover:transition ease-in-out hover:scale-110 hover:duration-200">
                             <Link2 className="size-5 text-zinc-400 shrink-0 hover:text-purpleDark" />
                         </button>
-                        <button title="Apagar" onClick={()=>openModalConfimExclude(link.id)} className="hover:transition ease-in-out hover:scale-110 hover:duration-200">
-                        <Trash2 className="text-zinc-400 size-5 hover:text-red-500" />
+                        <button
+                            title="Apagar"
+                            onClick={() => openModalConfimExclude(link.id)}
+                            className="hover:transition ease-in-out hover:scale-110 hover:duration-200"
+                        >
+                            <Trash2
+                                className={`size-5 ${opentrash === link.id
+                                        ? "text-red-500" // se for o item clicado, fica vermelho
+                                        : "text-zinc-400 hover:text-red-500"
+                                    }`}
+                            />
                         </button>
                     </div>
                 ))}
@@ -65,12 +77,12 @@ export function LinksImportant({ OpenCreateLink, links, setLinks }: LinksImporta
                 <Plus className="size-5 text-zinc-200" />
                 Cadastrar novo link
             </Button>
-            
-            {openModalExclude &&(
-              <ConfirmDelete
-              onConfirm={()=>DeleteLink(linkToDelete ? linkToDelete : '')}
-              OnCancel={()=> setOpenModalExclude(false)}
-              />  
+
+            {openModalExclude && linkToDelete && (
+                <ConfirmDelete
+                    onConfirm={() => DeleteLink(linkToDelete)}
+                    OnCancel={() => setOpenModalExclude(false)}
+                />
             )}
         </div>
     )
